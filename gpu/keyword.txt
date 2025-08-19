@@ -1,0 +1,26 @@
+Keywords
+Before diving into the topic, we would like to define some concepts related to parallel computing:
+
+CPU: The Central Processing Unit, is the processor installed at the heart of a computer. It receives information, processes it and distributes it to the screen or to the other units connected to it such as graphics card, sound card, printer, scanner, etc.
+
+GPU: The Graphics Processing Unit (GPU) is a specialized processing unit, mainly designed to process images and videos. GPUs process data in order to render images on an output device, such as a screen. However, modern GPUs are general purpose computing devices that can be used to perform any kind of computation.
+
+CuPy: A GPU array library that implements a subset of the NumPy and SciPy interfaces. It is a convenient tool for those familiar with NumPy to explore the power of GPUs, without the need to write code in a GPU programming language like CUDA & OpenCL.
+
+Host & Device: The host is often used to refer to the the CPU, while device is used to refer to the GPU.
+
+Thread: The smallest execution unit in a CUDA program.
+
+Block: A set of CUDA threads sharing resources.
+
+Grid: A set of blocks launched in one kernel.
+
+Kernel: A large parallel loop, where each thread executes one iteration.
+GPU vs CPU
+CPUs are known of their capability to perform any general purpose computation in a high speed, so what’s the point behind using GPUs for the same purpose?
+
+Well, simply because GPUs are designed to process images & videos.
+
+CPUs cannot handle parallel processing, therefore large tasks that require millions of similar operations will choke a CPU’s capacity to process data. GPUs, on the other hand, are massively parallel devices that can execute thousands of threads at the same time.
+
+That being said, you might still wonder why anyone would prefer GPU over CPU to compute something that can be easily computed on a CPU.
