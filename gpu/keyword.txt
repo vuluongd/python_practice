@@ -24,3 +24,5 @@ Well, simply because GPUs are designed to process images & videos.
 CPUs cannot handle parallel processing, therefore large tasks that require millions of similar operations will choke a CPU’s capacity to process data. GPUs, on the other hand, are massively parallel devices that can execute thousands of threads at the same time.
 
 That being said, you might still wonder why anyone would prefer GPU over CPU to compute something that can be easily computed on a CPU.
+
+máy card amd có navi 14 không hỗ trojwj rocm chuyển dần sang opencl
