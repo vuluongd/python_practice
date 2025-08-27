@@ -23,3 +23,22 @@ print(names)
 print(ages)
 # Kết quả: ('An', 'Binh', 'Luong')
 # Kết quả: (23, 22, 21)
+# Chuyển đổi kết quả của zip thành list hoặc dict
+names = ["An", "Binh", "Luong"]
+ages = [23, 22, 21]
+result_list = list(zip(names, ages))
+result_dict = dict(zip(names, ages))
+print(result_list)
+print(result_dict)
+# Kết quả: [('An', 23), ('Binh', 22), ('Luong', 21)]
+# Kết quả: {'An': 23, 'Binh': 22, 'Luong': 21}
+# Sử dụng zip trong vòng lặp for
+names = ["An", "Binh", "Luong"]
+ages = [23, 22, 21]
+for name, age in zip(names, ages):
+    print (f"{name} is {age} years old")
+
+# Kết quả:
+# An is 23 years old
+# Binh is 22 years old
+# Luong is 21 years old
