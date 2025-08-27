@@ -16,3 +16,10 @@ ages = [23, 22, 21]
 result =zip(names, ages)
 print(list(result))
 # Kết quả: [('An', 23), ('Binh', 22)]
+# Sử dụng * để giải nén các tuple
+pairs = [('An', 23),('Binh', 22, ('Luong',21))]
+names, ages = zip(*pairs)
+print(names)
+print(ages)
+# Kết quả: ('An', 'Binh', 'Luong')
+# Kết quả: (23, 22, 21)
