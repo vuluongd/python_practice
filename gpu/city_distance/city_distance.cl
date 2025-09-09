@@ -5,13 +5,13 @@ void calc_pq_index(int size, int idx, int *p, int *q){
     *p = 0;
     *q = *p+1;
     for (i = size -1; i>=0; i--){
-        if (count < 1) {
+        if (count < i) {
             *q = count + *q;
             break;
         }
      else {
         count -= i;
-        (*p)++;
+        (*p) = (*p) + 1;
         (*q) = *p + 1;
     }
 }

@@ -22,7 +22,7 @@ if __name__ == "__main__":
 
     print('creat context')
     ctx = cl.create_some_context()
-    queue = cl.CommandQueue(ctx)
+    queue = cl.CommandQueue(ctx, properties=cl.command_queue_properties.PROFILING_ENABLE)
     print('create command queue')
     time_ctx_queue_creation = time.time()
 
