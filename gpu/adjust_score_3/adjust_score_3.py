@@ -7,7 +7,6 @@ tasks = 1048576
 cl_tasks = int (tasks/4)
 
 if __name__ == "__main__":
-    
     print('load program from cl file')
     f = open('adjust_score_3.cl', 'r', encoding='utf-8')
     kernels = ''.join(f.readlines())
