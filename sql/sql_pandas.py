@@ -2,10 +2,8 @@ import sqlite3
 import pandas as pd 
 # Kết nối (tạo database file test.db)
 conn = sqlite3.connect("test.db")
-# Xóa bảng cũ nếu có
+#xóa cũ
 conn.execute("DROP TABLE IF EXISTS NhanVien")
-
-
 #tạo bảng
 conn.execute("""
 CREATE TABLE IF NOT EXISTS NhanVien(
