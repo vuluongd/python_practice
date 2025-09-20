@@ -1,0 +1,84 @@
+import os
+import math
+import numpy as np
+import pyopencl as cl
+import pyopencl.array
+import time
+from PIL import Image
+
+if __name__ == '__main__':
+    print('load program from cl source file')
+    f = open('gray.cl', 'r', encoding = 'utf-8')
+    kernels = ''.join(f.readlines())
+    f.close()
+
+    print('prepare data')
+    filename = '7680x4320'
+    ext = '.jpg'
+    img = Image.open(os.path.join(os.path.dirname(__file__), filename + ext))
+    img_width = img.size[0]
+    img_height = img.size[1]
+    img_size = img_width * img_width
+    if img.mode != 'RGBA':
+        img = img.convert('RGBA')
+    
+    print(">>> Input 1 (using uchar), 2 (using uchar4) ")
+    strChoice = input()
+    start_time = time.time()
+    # prepare host memory for opencl
+    pixel_type = np.dtype(('B', 1))
+    im_arr = np.fromstring(img.tobytes(), dtype=pixel_type)
+    input_data_array = im_arr.reshape((img_size * 4))
+    output_data_array = np.zeros(img_size * 4, dtype=pixel_type)
+    time_hostdata_loaded = time.time()
+
+    # create opencl context & queue
+    print('create context...')
+    ctx = cl.create_some_context()
+    print('create command queue ...')
+    queue = cl.CommandQueue(ctx, properties=cl.command_queue_properties.PROFILING_ENABLE)
+    time_ctx_queue_creation = time.time()
+
+    # prepare device memory for opencl
+    print('prepare device memory for input/output')
+    dev_input_array_data = cl.array_to_device(queue, input_data_array)
+    dev_output_array_data = cl.array_to_device(queue, output_data_array)
+    time_devicedata_loaded = time.time()
+
+    print('compile kernel code')
+    prg = cl.Program(ctx,kernels).build()
+    time_kernel_compilation = time.time()
+
+    np_width = np.int32(img_width)
+    np_height = np.int32(img_height)
+
+    print('execute kernel programs')
+    # Choose different kernel function according to the choice.
+    kernel_func = prg.to_gray if strChoice == '1' else prg.to_gray4
+    elapsed = 0
+    for i in range(50):
+        evt = kernel_func(queue, (img_size, ), (1, ), dev_input_array_data, dev_output_array_data.data)
+        evt.wait()
+        elapsed += (1e-9 * (evt.profile.end - evt.profile.start))
+    elapsed /= 50
+
+    time_before_readback = time.time()
+    print(' out shape = {}'.format(dev_output_array_data.shape))
+    outRS = dev_output_array_data.reshape(img.size[1], img.size[0], 4).get()
+    time_after_readback = time.time()
+
+    print('Prepare host data took       : {}'.format(time_hostdata_loaded - start_time))
+    print('Create CTX/QUEUE took        : {}'.format(time_ctx_queue_creation - time_hostdata_loaded))
+    print('Up load data to device took  : {}'.format(time_devicedata_loaded - time_ctx_queue_creation))
+    print('Compile kernel took          : {}'.format(time_kernel_compilation - time_devicedata_loaded))
+    print('OpenCL elapsed time          : {}'.format(elapsed))
+    print('Offload data from device took: {}'.format(time_after_readback - time_before_readback))
+
+    out_filename = os.path.join('out_' + filename + ext)
+    out_im = Image.fromarray(outRS, 'RGBA')
+    if out_im.mode == 'RGBA':
+        out_im = out_im.convert('RGB')
+    out_im.save(out_filename)
+
+    print('Result is OK')
+           
