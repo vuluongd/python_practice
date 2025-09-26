@@ -1,5 +1,5 @@
 __kernel void to_gray(__global uchar* aBufferIn, __global uchar* aBufferOut) {
-    int global_id = get_global_id(0)
+    int global_id = get_global_id(0);
     int index = global_id * 4;
 
     // Đọc 3 kênh màu R, G, B

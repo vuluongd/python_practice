@@ -23,6 +23,7 @@ typedef struct {
 } my_struct;
 
 '''
+
 my_struct = cl.tools.get_or_register_dtype("my_struct", my_struct)
 ary_host = np.empty(20, my_struct)
 ary_host["field1"].fill(217)

@@ -18,7 +18,7 @@ if __name__ == '__main__':
     img = Image.open(os.path.join(os.path.dirname(__file__), filename + ext))
     img_width = img.size[0]
     img_height = img.size[1]
-    img_size = img_width * img_width
+    img_size = img_width * img_height
     if img.mode != 'RGBA':
         img = img.convert('RGBA')
     
@@ -41,8 +41,8 @@ if __name__ == '__main__':
 
     # prepare device memory for opencl
     print('prepare device memory for input/output')
-    dev_input_array_data = cl.array_to_device(queue, input_data_array)
-    dev_output_array_data = cl.array_to_device(queue, output_data_array)
+    dev_input_array_data = cl.array.to_device(queue, input_data_array)
+    dev_output_array_data = cl.array.to_device(queue, output_data_array)
     time_devicedata_loaded = time.time()
 
     print('compile kernel code')
