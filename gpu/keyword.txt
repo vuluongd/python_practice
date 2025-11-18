@@ -26,3 +26,6 @@ CPUs cannot handle parallel processing, therefore large tasks that require milli
 That being said, you might still wonder why anyone would prefer GPU over CPU to compute something that can be easily computed on a CPU.
 
 máy card amd có navi 14 không hỗ trojwj rocm chuyển dần sang opencl
+
+GPU parallel 
+pyopencl
